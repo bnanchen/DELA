@@ -33,15 +33,9 @@ function onYouTubeIframeAPIReady() {
       end: '75'
     },
     events: {
-      'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
     }
   });
-}
-
-// The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-  //event.target.playVideo();
 }
 
 function mute() {
@@ -82,7 +76,6 @@ $(window).keypress(function() {
       console.log("ajouté au rhythm");
       rhythm.push(currentTime);
     }
-    console.log(rhythm)
   }
 });
 
@@ -103,10 +96,10 @@ $(window).keypress(function() {
 
 function confidenceInterval(keypressTime) {
   for (let i = 0; i < correctRhythm.length; i++) {
-    console.log("bonjour");
     if (keypressTime <= (correctRhythm[i] + confidenceIntervalMean) && keypressTime >= (correctRhythm[i] - confidenceIntervalMean)) {
       console.log("bien");
       return true;
+      correctRhythm = correctRhythm.splice(i, 1);
     }
   }
   console.log("pas bien");
