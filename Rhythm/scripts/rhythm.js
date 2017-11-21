@@ -13,6 +13,7 @@ let rhythmUser = [];
 let rhythmUserCorrect = [];
 let correctRhythm = [52.26421812969971, 52.71000091798401, 53.18187996757507, 53.64540909918213, 54.11165101335144, 54.61317603433228, 55.11055306484985, 55.548349956130984, 56.012244963760374, 56.469238032424926, 56.93223809155273, 57.364767961853026, 57.813907143051146, 58.29237600762939, 58.76483012969971, 59.23620901335144, 59.69243495803833, 60.155252996185304, 60.620415910354616, 61.08529184550476, 61.52537512016296, 61.990043816894534, 62.445055979019166, 62.900669975204465, 63.36499294087219, 63.828590855041504, 64.26846800572204, 64.74965202479554, 65.21313893896485, 65.64490483978271, 66.13454101525879, 66.5888518664856, 67.04521188365173, 67.49215591035461, 67.948156, 68.37189209727478, 68.78898284169006, 69.24474112779235, 69.70156078256225, 70.13281008773804, 70.54921190463257, 71.01331196376037, 71.45631204196167, 71.90092900572205, 72.3491649294281, 72.81338422697449, 73.23750394087219, 73.66955302861022, 74.10092195040893, 74.5328427997284, 74.97312685694885];
 const confidenceIntervalsTwo = [0.22289139414215242, 0.23593952479552982, 0.23176456580353033, 0.23312095708465463, 0.25076251049041787, 0.2486885152587881, 0.2188984456405656, 0.23194750381469476, 0.228496534332276, 0.2315000295639038, 0.21626493515014644, 0.22456959059906012, 0.23923443228912333, 0.23622706103515867, 0.2356894418258655, 0.22811297234344607, 0.2314090190734852, 0.23258145708465605, 0.2324379675750734, 0.22004163732909987, 0.23233434836578581, 0.22750608106231596, 0.2278069980926496, 0.23216148283386318, 0.23179895708465637, 0.21993857534026873, 0.24059200953674775, 0.23174345708465438, 0.21588295040893257, 0.24481808773803948, 0.22715542561340385, 0.22818000858306675, 0.22347201335144007, 0.22800004482269287, 0.21186804863739184, 0.20854537220763802, 0.22787914305114754, 0.22840982738495086, 0.21562465258789132, 0.20820090844726735, 0.23205002956390075, 0.22150003910064697, 0.2223084818801908, 0.22411796185302535, 0.2321096487731964, 0.21205985694884788, 0.21602454386901826, 0.21568446089935378, 0.21596042465973397, 0.22014202861022625];
+const numberCorrectRhythm = correctRhythm.length;
 let correctTappedRhyhtm = 0;
 
 // used to trigger the mute
@@ -71,12 +72,13 @@ function onPlayerStateChange(event) {
     timeoutFadeOut();
   } else if (event.data == YT.PlayerState.ENDED) {
     $("#score").append("You had tapped "+ rhythmUserCorrect.length +" times the correct rhythm.");
-    const resultPercentage = Math.floor((correctTappedRhyhtm/correctRhythm.length)*100);
+    const resultPercentage = Math.floor((correctTappedRhyhtm/numberCorrectRhythm)*100);
     $("#resultPercentage").attr("style", "width:"+ resultPercentage +"%");
     $("#resultPercentageNumeral").append(resultPercentage +"%");
     $("#resultModal").modal('show');
     console.log("Array of all rhythm tapped by the user:"+ rhythmUser);
     console.log("Array of all the correct rhythm tapped by the user:"+ rhythmUserCorrect);
+    downloadResults(resultPercentage, rhythmUser, rhythmUserCorrect);
   }
 }
 
@@ -126,4 +128,32 @@ function confidenceInterval(keypressTime) {
 
 function stopVideo() {
   player.stopVideo();
+}
+
+function downloadResults(resultPercentage, rhythmUser, rhythmUserCorrect) {
+  const currentTime = new Date();
+  const day = currentTime.getDay();
+  const month = currentTime.getMonth()+1; // January is number 0
+  const year = currentTime.getFullYear();
+
+  const jsonFile = {
+      date: day +"/"+ month +"/"+ year,
+      'Result %': resultPercentage,
+      'Array of all the tapped rhythm': rhythmUser,
+      'Array of all the correct tapped rhythm': rhythmUserCorrect
+  };
+
+  const blob = new Blob([JSON.stringify(jsonFile, null, 3)], {type: 'application/json'});
+
+  if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+  }
+  else {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = "result.json";
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+  }
 }
