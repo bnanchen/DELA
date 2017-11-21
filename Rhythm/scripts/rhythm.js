@@ -33,9 +33,14 @@ function onYouTubeIframeAPIReady() {
       end: '75'
     },
     events: {
+      'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
     }
   });
+}
+
+function onPlayerReady() {
+  $("#introModal").modal('show');
 }
 
 function mute() {
@@ -77,6 +82,11 @@ $(window).keypress(function() {
       rhythm.push(currentTime);
     }
   }
+});
+
+// Play the video when the user discard the introduction modal
+$("#startVideo").on('click', function() {
+  player.playVideo();
 });
 
 // used to create the array confidenceInterval
