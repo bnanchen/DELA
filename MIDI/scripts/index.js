@@ -1,1 +1,3 @@
-import {Draggable} from '@shopify/draggable/';
+audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
