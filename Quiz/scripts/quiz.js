@@ -4,16 +4,27 @@
     var as = audiojs.createAll();
   });
 
-  const myQuestions = [
-    {
+  // html elements
+  let nextQuestion = $("#next");
+  let submit = $("#submit");
+  let question = $("#quiz");
+
+  // other variables
+  let questionNumber = 0;
+  let questionLevel = 0;
+  let currentQuestion;
+  let pathQuestion = [];
+
+  const questions = [
+    [{
       question: "<img src='../ressources/EP/image_question1.png' alt='partition' width='70%'>",
       answers: {
         a: "<audio src='../ressources/EP/1.mp3' preload='auto' />",
         b: "<audio src='../ressources/EP/2.mp3' preload='auto' />",
       },
       correctAnswer: "a"
-    },
-    {
+    }],
+    [{
       question: "<img src='../ressources/S1N/image_question21.png' alt='partition' width='70%'>",
       answers: {
         a: "<audio src='../ressources/S1N/1.mp3' preload='auto' />",
@@ -29,8 +40,8 @@
         b: "<audio src='../ressources/S1E/2.mp3' preload='auto' />"
       },
       correctAnswer: "b"
-    },
-    {
+    }],
+    [{
       question: "<img src='../ressources/S2H/image_question31.png' alt='partition' width='70%'>",
       answers: {
         a: "<audio src='../ressources/S2H/1.mp3' preload='auto' />",
@@ -56,8 +67,8 @@
         b: "<audio src='../ressources/S2N/2.mp3' preload='auto' />",
       },
       correctAnswer: "a"
-    },
-    {
+    }],
+    [{
       question: "<img src='../ressources/S3H/image_question41.png' alt='partition' width='70%'>",
       answers: {
         a: "<audio src='../ressources/S3H/1.mp3' preload='auto' />",
@@ -83,103 +94,39 @@
         b: "<audio src='../ressources/S3E/2.mp3' preload='auto' />"
       },
       correctAnswer: "b"
-    }
+    }]
   ];
 
-  function buildQuiz() {
-    // we'll need a place to store the HTML output
-    const output = [];
-
-    myQuestions.forEach((currentQuestion, questionNumber) => {
-      // we'll want to store the list of answer choices
-      const answers = [];
-
-      for (letter in currentQuestion.answers) {
-        answers.push(
-          `<label>
-             <input type="radio" name="question${questionNumber}" value="${letter}">
+  function buildQuestion(number, level) {
+    question.empty();
+    console.log(number, level);
+    currentQuestion = questions[number][level];
+    let answers = []
+    for (letter in currentQuestion.answers) {
+      answers.push(`<label>
+             <input type="radio" name="question" value="${letter}">
               ${letter} :
               ${currentQuestion.answers[letter]}
            </label>`
-        );
-      }
-
-      output.push(
-        `<div class="slide">
-           <div class="question"> ${currentQuestion.question} </div>
-           <div class="answers"> ${answers.join("<br>")} </div>
-         </div>`
-      );
-    });
-
-    quizContainer.innerHTML = output.join("");
-  }
-
-  function showResults() {
-    // gather answer containers from our quiz
-    const answerContainers = quizContainer.querySelectorAll(".answers");
-
-    // keep track of user's answers
-    let numCorrect = 0;
-
-    // for each question...
-    myQuestions.forEach((currentQuestion, questionNumber) => {
-      // find selected answer
-      const answerContainer = answerContainers[questionNumber];
-      const selector = `input[name=question${questionNumber}]:checked`;
-      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-      // if answer is correct
-      if (userAnswer === currentQuestion.correctAnswer) {
-        // add to the number of correct answers
-        numCorrect++;
-
-        // color the answers green
-        answerContainers[questionNumber].style.color = "lightgreen";
-      } else {
-        // if answer is wrong or blank
-        // color the answers red
-        answerContainers[questionNumber].style.color = "red";
-      }
-    });
-
-    // show number of correct answers out of total
-    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-  }
-
-  function showSlide(n) {
-    slides[currentSlide].classList.remove("active-slide");
-    slides[n].classList.add("active-slide");
-    currentSlide = n;
-
-    if (currentSlide === slides.length - 1) {
-      nextButton.style.display = "none";
-      submitButton.style.display = "inline-block";
-    } else {
-      nextButton.style.display = "inline-block";
-      submitButton.style.display = "none";
+         );
     }
+    question.append(`<div class="question"> ${currentQuestion.question} </div>
+           <div id="answers" class="answers"> ${answers.join("<br>")} </div>`);
   }
 
-  function showNextSlide() {
-    showSlide(currentSlide + 1);
-  }
+  nextQuestion.click(function (){
+    if ($("#answers input:checked").attr("value") == currentQuestion.correctAnswer) {
+      pathQuestion.push(1);
+      questionNumber += 1;
+      questionLevel = (questionLevel + 1) % questions[questionNumber].length;
+      buildQuestion(questionNumber, questionLevel);
+    } else {
+      pathQuestion.push(0);
+      questionNumber += 1;
+      questionLevel = questionLevel - 1 < 0 ? 0 : questionLevel - 1;
+      buildQuestion(questionNumber, questionLevel);
+    }
+  });
 
-  const quizContainer = document.getElementById("quiz");
-  const resultsContainer = document.getElementById("results");
-  const submitButton = document.getElementById("submit");
-
-  // display quiz right away
-  buildQuiz();
-
-  const nextButton = document.getElementById("next");
-  const slides = document.querySelectorAll(".slide");
-  let currentSlide = 0;
-
-  showSlide(0);
-
-
-  // on submit, show results
-  submitButton.addEventListener("click", showResults);
-  nextButton.addEventListener("click", showNextSlide);
+  buildQuestion(questionNumber, questionLevel);
 })();
