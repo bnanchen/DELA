@@ -1,91 +1,88 @@
 (function() {
+  // setup audio.js
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+
   const myQuestions = [
     {
       question: "<img src='../ressources/EP/image_question1.png' alt='partition' width='70%'>",
       answers: {
         a: "<audio src='../ressources/EP/1.mp3' preload='auto' />",
-        b: "<audio src='../music/2.mp3' preload='auto' />",
+        b: "<audio src='../ressources/EP/2.mp3' preload='auto' />",
       },
       correctAnswer: "a"
     },
     {
       question: "<img src='../ressources/S1N/image_question21.png' alt='partition' width='70%'>",
       answers: {
-        a: "SitePoint",
-        b: "Simple Steps Code",
-        c: "Trick question; they're both the best"
+        a: "<audio src='../ressources/S1N/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S1N/2.mp3' preload='auto' />",
+        c: "<audio src='../ressources/S1N/3.mp3' preload='auto' />"
       },
       correctAnswer: "c"
     },
     {
       question: "<img src='../ressources/S1E/image_question22.png' alt='partition' width='70%'>",
       answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
+        a: "<audio src='../ressources/S1E/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S1E/2.mp3' preload='auto' />"
       },
-      correctAnswer: "d"
+      correctAnswer: "b"
     },
     {
       question: "<img src='../ressources/S2H/image_question31.png' alt='partition' width='70%'>",
       answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
+        a: "<audio src='../ressources/S2H/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S2H/2.mp3' preload='auto' />",
+        c: "<audio src='../ressources/S2H/3.mp3' preload='auto' />",
+        d: "<audio src='../ressources/S2H/4.mp3' preload='auto' />"
       },
-      correctAnswer: "d"
+      correctAnswer: "a"
     },
-    // {
-    //   question: "<img src='../ressources/S/image_question32.png' alt='partition' width='70%'>",
-    //   answers: {
-    //     a: "Antarctica",
-    //     b: "Exploring the Pacific Ocean",
-    //     c: "Sitting in a tree",
-    //     d: "Minding his own business, so stop asking"
-    //   },
-    //   correctAnswer: "d"
-    // },
+    {
+      question: "<img src='../ressources/S2N/image_question32.png' alt='partition' width='70%'>",
+      answers: {
+        a: "<audio src='../ressources/S2N/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S2N/2.mp3' preload='auto' />",
+        c: "<audio src='../ressources/S2N/3.mp3' preload='auto' />"
+      },
+      correctAnswer: "b"
+    },
     {
       question: "<img src='../ressources/S2E/image_question33.png' alt='partition' width='70%'>",
       answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
+        a: "<audio src='../ressources/S2N/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S2N/2.mp3' preload='auto' />",
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "<img src='../ressources/S3H/image_question41.png' alt='partition' width='70%'>",
+      answers: {
+        a: "<audio src='../ressources/S3H/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S3H/2.mp3' preload='auto' />",
+        c: "<audio src='../ressources/S3H/3.mp3' preload='auto' />",
+        d: "<audio src='../ressources/S3H/4.mp3' preload='auto' />"
       },
       correctAnswer: "d"
     },
     {
-      question: "<img src='../ressources/EP/image_question41.png' alt='partition' width='70%'>",
+      question: "<img src='../ressources/S3N/image_question42.png' alt='partition' width='70%'>",
       answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
+        a: "<audio src='../ressources/S3N/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S3N/2.mp3' preload='auto' />",
+        c: "<audio src='../ressources/S3N/3.mp3' preload='auto' />"
       },
-      correctAnswer: "d"
+      correctAnswer: "b"
     },
     {
-      question: "<img src='../ressources/EP/image_question42.png' alt='partition' width='70%'>",
+      question: "<img src='../ressources/S3E/image_question43.png' alt='partition' width='70%'>",
       answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
+        a: "<audio src='../ressources/S3E/1.mp3' preload='auto' />",
+        b: "<audio src='../ressources/S3E/2.mp3' preload='auto' />"
       },
-      correctAnswer: "d"
-    },
-    {
-      question: "<img src='../ressources/EP/image_question43.png' alt='partition' width='70%'>",
-      answers: {
-        a: "Antarctica",
-        b: "Exploring the Pacific Ocean",
-        c: "Sitting in a tree",
-        d: "Minding his own business, so stop asking"
-      },
-      correctAnswer: "d"
+      correctAnswer: "b"
     }
   ];
 
@@ -93,14 +90,11 @@
     // we'll need a place to store the HTML output
     const output = [];
 
-    // for each question...
     myQuestions.forEach((currentQuestion, questionNumber) => {
       // we'll want to store the list of answer choices
       const answers = [];
 
-      // and for each available answer...
       for (letter in currentQuestion.answers) {
-        // ...add an HTML radio button
         answers.push(
           `<label>
              <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -110,16 +104,14 @@
         );
       }
 
-      // add this question and its answers to the output
       output.push(
         `<div class="slide">
            <div class="question"> ${currentQuestion.question} </div>
-           <div class="answers"> ${answers.join("")} </div>
+           <div class="answers"> ${answers.join("<br>")} </div>
          </div>`
       );
     });
 
-    // finally combine our output list into one string of HTML and put it on the page
     quizContainer.innerHTML = output.join("");
   }
 
@@ -160,12 +152,6 @@
     slides[n].classList.add("active-slide");
     currentSlide = n;
 
-    if (currentSlide === 0) {
-      previousButton.style.display = "none";
-    } else {
-      previousButton.style.display = "inline-block";
-    }
-
     if (currentSlide === slides.length - 1) {
       nextButton.style.display = "none";
       submitButton.style.display = "inline-block";
@@ -179,10 +165,6 @@
     showSlide(currentSlide + 1);
   }
 
-  function showPreviousSlide() {
-    showSlide(currentSlide - 1);
-  }
-
   const quizContainer = document.getElementById("quiz");
   const resultsContainer = document.getElementById("results");
   const submitButton = document.getElementById("submit");
@@ -190,15 +172,14 @@
   // display quiz right away
   buildQuiz();
 
-  const previousButton = document.getElementById("previous");
   const nextButton = document.getElementById("next");
   const slides = document.querySelectorAll(".slide");
   let currentSlide = 0;
 
   showSlide(0);
 
+
   // on submit, show results
   submitButton.addEventListener("click", showResults);
-  previousButton.addEventListener("click", showPreviousSlide);
   nextButton.addEventListener("click", showNextSlide);
 })();
