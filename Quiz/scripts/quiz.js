@@ -33,7 +33,7 @@
         b: "<audio controls src='../ressources/S1N/2.mp3' preload='auto' />",
         c: "<audio controls src='../ressources/S1N/3.mp3' preload='auto' />"
       },
-      correctAnswer: "c"
+      correctAnswer: "a"
     }],
     [{
       question: "<img src='../ressources/S2E/image_question33.png' alt='partition' width='30%'>",
