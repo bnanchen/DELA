@@ -1,7 +1,8 @@
 (function() {
   // html elements
-  let nextQuestion = $("#next");
+  let submit = $("#submit");
   let question = $("#quiz");
+  let nextQuestion = $("#nextQuestion");
 
   // other variables
   let questionNumber = 0;
@@ -107,23 +108,46 @@
            <div id="answers" class="answers"> ${answers.join("<br>")} </div>`);
   }
 
-  function showResult() {
-    console.log(pathQuestion);
-    $("#score").append("Congratulations! You have responded correctly to "+ pathQuestion.reduce((accumulator, currentValue) => accumulator + currentValue, 0) +" questions on "+ questions.length);
+  function showIntermediateResult(questionNumb, correctAnswer) {
+    let intermediateResult =  $("#intermediateResult");
+    let songResult = $("#songResult");
+
+    // cleaning
+    intermediateResult.empty();
+    songResult.empty();
+
+    // TODO test purpose
+    console.log("showIntermediateResult");
+    if (correctAnswer) {
+      intermediateResult.append("Good work! You have correctly responded to the question.");
+    } else {
+      intermediateResult.append("Too bad! You have not correctly responded. <br> The correct answer was "+ currentQuestion.correctAnswer +".");
+      songResult.append(currentQuestion.answers[currentQuestion.correctAnswer]);
+    }
     $("#resultModal").modal('show');
   }
 
-  nextQuestion.click(function (){
+  function showResult() {
+    console.log(pathQuestion);
+    const correctAnswers = pathQuestion.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    const resultPercentage = Math.floor((correctAnswers/questions.length)*100);
+    $("#resultPercentage").attr("style", "width:"+ resultPercentage +"%");
+    $("#resultPercentageNumeral").append(resultPercentage +"%");
+    if (resultPercentage <= 50) {
+      $("#score").append("You have responded correctly to "+ correctAnswers +" questions on "+ questions.length +".");
+    } else {
+      $("#score").append("Congratulations! You have responded correctly to "+ correctAnswers +" questions on "+ questions.length +".");
+    }
+    $("#finalResultModal").modal('show');
+  }
+
+  submit.click(function (){
     if ($("#answers input:checked").length == 0) {
       return;
     }
 
-    if (questionNumber+1 === questions.length-1) {
-      nextQuestion.empty();
-      nextQuestion.append("Submit");
-    }
     // TODO for test purpose
-    console.log($("#answers input:checked").attr("value") +"; "+ currentQuestion.correctAnswer);
+    // console.log($("#answers input:checked").attr("value") +"; "+ currentQuestion.correctAnswer);
 
     if ($("#answers input:checked").attr("value") === currentQuestion.correctAnswer) {
       pathQuestion.push(1);
@@ -133,7 +157,8 @@
       }
       questionNumber += 1;
       questionLevel = questionLevel + 1 > 2 ? 2 : questionLevel + 1;
-      buildQuestion(questionNumber, questionLevel);
+      showIntermediateResult(questionNumber, true);
+      //buildQuestion(questionNumber, questionLevel);
     } else {
       pathQuestion.push(0);
       if (questionNumber+1 === questions.length) {
@@ -144,8 +169,13 @@
         questionLevel = questionLevel - 1 < 0 ? 0 : questionLevel - 1;
       }
       questionNumber += 1;
-      buildQuestion(questionNumber, questionLevel);
+      showIntermediateResult(questionNumber, false);
+      //buildQuestion(questionNumber, questionLevel);
     }
+  });
+
+  nextQuestion.click(function () {
+    buildQuestion(questionNumber, questionLevel);
   });
 
   // first call to the method
