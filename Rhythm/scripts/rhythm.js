@@ -151,7 +151,7 @@ function downloadResults(resultPercentage, rhythmUser, rhythmUserCorrect) {
   else {
       const elem = window.document.createElement('a');
       elem.href = window.URL.createObjectURL(blob);
-      elem.download = "result.json";
+      elem.download = "resultRhythm.json";
       document.body.appendChild(elem);
       elem.click();
       document.body.removeChild(elem);
