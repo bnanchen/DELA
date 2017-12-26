@@ -20,6 +20,8 @@ let correctTappedRhyhtm = 0;
 const timestamp = 65;
 let timer;
 
+let username;
+
 tag.src = "https://www.youtube.com/iframe_api";
 const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -93,6 +95,14 @@ $(window).keypress(function() {
   }
 });
 
+// Verify that the user has entered a username
+let inputUsername = $("form#username input");
+
+inputUsername.change(function () {
+  username = inputUsername.val();
+  $("#startVideo").removeAttr("disabled");
+});
+
 // Play the video when the user discard the introduction modal
 $("#startVideo").on('click', function() {
   player.playVideo();
@@ -138,6 +148,7 @@ function downloadResults(resultPercentage, rhythmUser, rhythmUserCorrect) {
 
   const jsonFile = {
       date: day +"/"+ month +"/"+ year,
+      username: username,
       'Result %': resultPercentage,
       'Array of all the tapped rhythm': rhythmUser,
       'Array of all the correct tapped rhythm': rhythmUserCorrect

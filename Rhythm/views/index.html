@@ -69,9 +69,17 @@
           </div>
           <div class="modal-body">
             A video will be shown on the screen. It is an extract of a concert from The White Stripes. Your goal is to tap in rhythm with the kick of the drums. You can press any letter of your keyboard to tap the rhythm.
+            <br><br>
+            But before you begin, please enter a username:
+            <br>
+            <form id=username>
+              <div class="form-group">
+                <input type="text" class="form-control" id="userID" placeholder="Username">
+              </div>
+            </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="startVideo">Start the Video</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="startVideo" disabled="disabled">Start the Video</button>
           </div>
         </div>
       </div>
@@ -89,9 +97,11 @@
           </div>
           <div class="modal-body">
             <div class="progress">
-              <div id="resultPercentage" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div id="resultPercentageNumeral"></div></div>
+              <div id="resultPercentage" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="resultPercentageNumeral"></div>
+              </div>
             </div>
-             <div id="score"></div>
+            <div id="score"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -110,11 +120,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script>
-    window.jQuery || document.write('<script src="styles/framework/bootstrap-3.3.7/assets/js/vendor/jquery.min.js"><\/script>')
+      window.jQuery || document.write('<script src="styles/framework/bootstrap-3.3.7/assets/js/vendor/jquery.min.js"><\/script>')
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-  </body>
+</body>
 
-  </html>
+</html>
