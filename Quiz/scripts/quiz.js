@@ -188,7 +188,7 @@
   // Set the user id to know the order of the questions
   function urlUser() {
     const url = new URL(window.location.href);
-    if (url.searchParams.get("user") === "a") {
+    if (url.searchParams.get("user") === "0") {
       user = 0;
     } else {
       user = 1;
@@ -253,6 +253,36 @@
       $("#score").append("Congratulations! You have responded correctly to " + correctAnswers + " questions on 7.");
     }
     $("#finalResultModal").modal('show');
+    downloadResults(resultPercentage);
+  }
+
+  function downloadResults(resultPercentage) {
+    const currentTime = new Date();
+    const day = currentTime.getDay();
+    const month = currentTime.getMonth() + 1; // January is number 0
+    const year = currentTime.getFullYear();
+
+    const jsonFile = {
+      date: day + "/" + month + "/" + year,
+      'User': user,
+      'Result %': resultPercentage,
+      'Array of the path': pathQuestion
+    };
+
+    const blob = new Blob([JSON.stringify(jsonFile, null, 3)], {
+      type: 'application/json'
+    });
+
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+    } else {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = "resultQuiz.json";
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
   }
 
   submit.click(function() {
