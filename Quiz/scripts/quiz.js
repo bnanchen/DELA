@@ -196,10 +196,24 @@
     questions = questionSet[user];
   }
 
-  function secondQuestionSet() {
+  function secondQuestionSet(success) {
     second = true;
+    switch (questionLevel) {
+      case 2:
+        questionLevel = 1;
+        break;
+      case 1:
+        if (!success) {
+          questionLevel = 0;
+        }
+        break;
+      case 0:
+        questionLevel = 0;
+        break;
+      default:
+        questionLevel = questionLevel;
+    }
     questionNumber = 0;
-    questionLevel = 0;
     if (questions === questionsSheet) {
       questions = questionsMusic;
     } else {
@@ -300,11 +314,13 @@
           showResult();
           return;
         } else {
-          secondQuestionSet();
+          secondQuestionSet(true);
         }
       }
       questionNumber += 1;
-      questionLevel = questionLevel + 1 > 2 ? 2 : questionLevel + 1;
+      if (!(second && questionNumber == 1)) {
+        questionLevel = questionLevel + 1 > 2 ? 2 : questionLevel + 1;
+      }
       showIntermediateResult(questionNumber, true);
       //buildQuestion(questionNumber, questionLevel);
     } else {
@@ -314,10 +330,10 @@
           showResult();
           return;
         } else {
-          secondQuestionSet();
+          secondQuestionSet(false);
         }
       }
-      if (questionNumber !== 1) {
+      if (questionNumber !== 1 && !(second && questionNumber == 0)) {
         questionLevel = questionLevel - 1 < 0 ? 0 : questionLevel - 1;
       }
       questionNumber += 1;
