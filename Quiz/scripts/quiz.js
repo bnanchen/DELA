@@ -185,6 +185,11 @@
   questionSet = [questionsMusic, questionsSheet];
   let questions;
 
+  // Display the modal when the page is fully loaded
+  $(window).on('load',function(){
+        $('#introModal').modal('show');
+    });
+
   // start time
   let startTime = Date.now();
 
