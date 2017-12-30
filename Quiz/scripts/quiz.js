@@ -185,6 +185,9 @@
   questionSet = [questionsMusic, questionsSheet];
   let questions;
 
+  // start time
+  let startTime = Date.now();
+
   // Set the user id to know the order of the questions
   function urlUser() {
     const url = new URL(window.location.href);
@@ -279,6 +282,7 @@
     const jsonFile = {
       date: day + "/" + month + "/" + year,
       'User': user,
+      'Duration of the quizz (sec)': (Date.now() - startTime)/1000.0,
       'Result %': resultPercentage,
       'Array of the path': pathQuestion
     };
