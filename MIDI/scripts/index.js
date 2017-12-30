@@ -24,3 +24,64 @@ function onYouTubeIframeAPIReady() {
     }
   });
 }
+
+// time variables
+let startTimeFirstPart = 0;
+let startTimeSecondPart = 0;
+let timeIntervalFirstPart = 0;
+let timeIntervalSecondPart = 0;
+
+$("#firstLink").click(function () {
+  console.log("firstLink");
+  startTimeFirstPart = Date.now();
+});
+
+$("#secondLink").click(function () {
+  console.log("secondLink");
+  startTimeSecondPart = Date.now();
+});
+
+$("#buttonFirstPart").click(function () {
+  if (startTimeFirstPart === 0) {
+    return;
+  }
+  console.log("firstButton");
+  timeIntervalFirstPart = (Date.now() - startTimeFirstPart)/1000.0;
+});
+
+$("#buttonSecondPart").click(function () {
+  if (startTimeFirstPart === 0 || startTimeSecondPart === 0) {
+    return;
+  }
+  console.log("secondButton");
+  timeIntervalSecondPart = (Date.now() - startTimeSecondPart)/1000.0;
+  downloadResults();
+});
+
+function downloadResults() {
+    const currentTime = new Date();
+    const day = currentTime.getDay();
+    const month = currentTime.getMonth() + 1; // January is number 0
+    const year = currentTime.getFullYear();
+
+    const jsonFile = {
+      date: day + "/" + month + "/" + year,
+      'Duration of the first part (sec)': timeIntervalFirstPart,
+      'Duration of the second part (sec)': timeIntervalSecondPart
+    };
+
+    const blob = new Blob([JSON.stringify(jsonFile, null, 3)], {
+      type: 'application/json'
+    });
+
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+    } else {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = "resultQuiz.json";
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
+  }
