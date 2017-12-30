@@ -177,7 +177,7 @@
           c: "<img src='../ressources/S6H/3.png' alt='partition' width='70%'>",
           d: "<img src='../ressources/S6H/4.png' alt='partition' width='70%'>"
         },
-        correctAnswer: "d"
+        correctAnswer: "a"
       }
     ]
   ];
