@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags must come first in the head; any other head content must come *after* these tags -->
+
+  <!-- <link rel="icon" href="bootstrap/docs/favicon.ico"> -->
+  <!-- <title>Rhythm</title> -->
+
+  <!-- Bootstrap core CSS -->
+  <!-- <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+  <!-- Custom styles for this template -->
+  <link href="../styles/theme.css" rel="stylesheet">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../scripts/ext/jquery.js"></script>
+
+  <!-- Audio.js -->
+  <!-- <script src="../scripts/ext/audiojs/audio.min.js"></script> -->
+
+</head>
+
+<body>
+  <!-- Black Topbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content of the Page -->
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header" id="page_header">
+      <h1>Quiz</h1>
+    </div>
+    <br> Some hints/indications :
+    <ul>
+      <li>To have a more fun experience, all music clips comes from real songs you might have already heard. This means that sometimes many instruments can be heard at the same time. Always focus on the sounds/instrument that is the most loud and
+        that has the most high pitch.</li>
+      <li>If you are not sure anymore about the signification of some music symbols, you can rewatch the video about notes <a href="https://www.youtube.com/watch?v=A9BxWwq0eqw" target="_blank">here</a>.</li>
+    </ul>
+
+    <!-- Intro Modal -->
+    <div class="modal fade" id="introModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Quiz</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="explanation">
+            This quizz consists of two parts. One where you have one music to hear, and several partitions to choose from, and one that is the opposite, i.e. several music clips and one partition.
+            <br> You will first have 4 questions from one part, then 3 questions from the other part. So don't be confused if the exercises seems different after a while, the base concept stays the same : trying to match music clip(s) and music sheet(s)
+            together. The different choices you have are marked with alphabet symbols (a,b,c, or d).
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="startVideo">Start the quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intermediate Result Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+            <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="intermediateResult"></div>
+            <div id="songResult"></div>
+          </div>
+          <div class="modal-footer">
+            <button id="nextQuestion" type="button" class="btn btn-secondary" data-dismiss="modal">Next Question</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Result Modal -->
+    <div class="modal fade" id="finalResultModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="progress">
+              <div id="resultPercentage" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div id="resultPercentageNumeral"></div>
+              </div>
+            </div>
+            <div id="score"></div>
+          </div>
+          <div class="modal-footer">
+            <br>
+            You have now reached the end of this mini course !
+            <br>We hope that you've learned some basic about music reading and that you had fun.
+            <br> Before you go back to your business, it would be great to put
+            all the files produced by the differents exercices
+            (resultRhythm.json, resultMIDI.json, resultQuiz.json) as well as the
+             screenshots/pictures of your MIDI results inside a folder, compress
+             it and send it to "cedric.viaccoz@epfl.ch".
+             <br>Those files should normally be located inside the Dowload folder of
+             your browser. If you have a hard time achieving this task, or cannot find the files,
+             please ask the supervisor(s) to help you.
+             <br>
+             <br>
+             Thank you very much and have a nice day !
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="quiz-container">
+      <div id="quiz"></div>
+      <br>
+      <button id="submit" class="btn btn-info">Submit</button>
+    </div>
+
+    <br>
+    <br>
+
+</body>
+
+<!-- JavaScript -->
+<script src="../scripts/quiz.js"></script>
+
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+  window.jQuery || document.write('<script src="styles/framework/bootstrap-3.3.7/assets/js/vendor/jquery.min.js"><\/script>')
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</body>
+
+</html>
