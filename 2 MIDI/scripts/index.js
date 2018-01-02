@@ -19,8 +19,8 @@ function onYouTubeIframeAPIReady() {
     width: '640',
     videoId: 'cEqY5VMxtyY',
     playerVars: {
-      start: '45',
-      end: '75'
+      start: '0',
+      end: '43'
     }
   });
 }
@@ -79,7 +79,7 @@ function downloadResults() {
     } else {
       const elem = window.document.createElement('a');
       elem.href = window.URL.createObjectURL(blob);
-      elem.download = "resultQuiz.json";
+      elem.download = "resultMIDI.json";
       document.body.appendChild(elem);
       elem.click();
       document.body.removeChild(elem);
